@@ -12,7 +12,10 @@ defmodule Streamer.Binance do
   end
 
   def handle_frame({type, msg}, state) do
-    IO.puts("Received Message - Type: #{inspect(type)} -- Message: #{inspect(msg)}")
+    case Jason.decode(msg) do
+      {:ok, event} -> handle_event(event, state)
+      {error:,  } -> throw("Unable to parse msg: #{msg}")
+    end
     {:ok, state}
   end
 end
