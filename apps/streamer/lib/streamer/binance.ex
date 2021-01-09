@@ -20,7 +20,7 @@ defmodule Streamer.Binance do
     {:ok, state}
   end
 
-  def handle_event(%{"e" => "trade"}, event, state) do
+  def handle_event(%{"e" => "trade"} = event, state) do
     trade_event = %Streamer.Binance.TradeEvent{
       :event_type => event["e"],
       :event_time => event["E"],
