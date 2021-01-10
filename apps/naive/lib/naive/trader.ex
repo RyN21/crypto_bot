@@ -1,3 +1,5 @@
+require IEx
+
 defmodule Naive.Trader do
   use GenServer
 
@@ -27,7 +29,9 @@ defmodule Naive.Trader do
      }}
   end
 
-  defp fetch_tick_size do
+  defp fetch_tick_size(symbol) do
+    IEx.pry()
+
     %{"filters" => filters} =
       Binance.get_exchange_info()
       |> elem(1)
