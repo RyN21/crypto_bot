@@ -29,6 +29,29 @@ defmodule Naive.Trader do
      }}
   end
 
+  def handle_cast(
+    {:event,
+    %Streamer.Binance.TradeEvent{
+      price: price
+    }},
+    %State{
+      symbol: symbol,
+      buy_order: nil
+    } = state
+  ) do
+    quantity = 100
+
+    {:ok, %Binance.OrderResponseP{} = order} =
+      Binance.order_limit_buy(
+        symbol,
+        quantity,
+        price,
+        "GTC"
+      )
+
+    {:noreply, %{state | buy_order: order}}
+  end
+
   defp fetch_tick_size(symbol) do
     IEx.pry()
 
